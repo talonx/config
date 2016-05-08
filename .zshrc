@@ -14,12 +14,13 @@ compinit
 export PATH=$HOME/gradle-2.5/bin:$PATH
 
 git config --global user.name "Hrishikesh Barua"
-git config --global user.email ""
+git config --global user.email "talonx@gmail.com"
 
 
 #### Golang stuff ####
-export PATH=/usr/local/go/bin:$PATH
-export GOPATH=/code/code/go
+export GOROOT=~/sdks/go/current
+export PATH=$GOROOT/bin:$PATH
+export GOPATH=~/code/go
 export PATH=$GOPATH/bin:$PATH
 export GOBIN=$GOPATH/bin
 ####
