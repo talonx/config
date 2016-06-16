@@ -1,26 +1,73 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=10000
-SAVEHIST=10000
-bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/talonx/.zshrc'
+#
+# .zshrc is sourced in interactive shells.
+# It should contain commands to set up aliases,
+# functions, options, key bindings, etc.
+#
 
-autoload -Uz compinit
+autoload -U compinit
 compinit
-# End of lines added by compinstall
 
-export PATH=$HOME/gradle-2.5/bin:$PATH
+#allow tab completion in the middle of a word
+setopt COMPLETE_IN_WORD
 
-git config --global user.name "Hrishikesh Barua"
-git config --global user.email "talonx@gmail.com"
+## keep background processes at full speed
+#setopt NOBGNICE
+## restart running processes on exit
+#setopt HUP
+
+## history
+#setopt APPEND_HISTORY
+## for sharing history between zsh processes
+#setopt INC_APPEND_HISTORY
+#setopt SHARE_HISTORY
+
+## never ever beep ever
+#setopt NO_BEEP
+
+## automatically decide when to page a list of completions
+#LISTMAX=0
+
+## disable mail checking
+#MAILCHECK=0
+
+# autoload -U colors
+#colors
+
+zmodload zsh/complist
+
+zstyle ":completion:*:commands" rehash 1
+
+bindkey "^r"  history-incremental-search-backward
+bindkey "^[[Z" reverse-menu-complete
+bindkey "^[[H"   beginning-of-line
+bindkey "^[[F"   end-of-line
+bindkey    "^[[3~"          delete-char
+bindkey    "^[3;5~"         delete-char
+bindkey -M menuselect '^[[Z' reverse-menu-complete
+bindkey "e[1~" beginning-of-line
+bindkey "e[4~" end-of-line
+
+insert-sudo () { zle beginning-of-line; zle -U "sudo " }
+zle -N insert-sudo
+bindkey "^[s" insert-sudo
+
+setopt CORRECT
+setopt NO_BEEP
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
 
 
-#### Golang stuff ####
-export GOROOT=~/sdks/go/current
-export PATH=$GOROOT/bin:$PATH
-export GOPATH=~/code/go
-export PATH=$GOPATH/bin:$PATH
-export GOBIN=$GOPATH/bin
-####
+HISTSIZE=10000
+if (( ! EUID )); then
+  HISTFILE=~/.history_root
+else
+  HISTFILE=~/.history
+fi
+SAVEHIST=10000
+
+export PATH=~/bin:$PATH
